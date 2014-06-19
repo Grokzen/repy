@@ -1,22 +1,16 @@
-# REPY (REgex PYthon command line tool)
+# REPY (REgex PYthon cli)
 
 This is a small cli tool that enables testing of regex.
 
 
 
-# Installation
-
-This document will describe how to install this tool.
-
-
-
-## Python dependencies
+# Python dependencies
 
  - docopt>=0.6.1
 
 
 
-## Install from source
+# Install from source
 
 It is reccomended to install and run repy inside a virtualenv.
 
@@ -39,53 +33,58 @@ python setup.py install
 or create a sdist that can be installed with pip
 
 ```shell
-make sdist
+make sdist && pip install dist/repy-14.06.tar.gz
 ```
-
-
-
-## repy version scheme
-
-Stable releases follow the same name scheme ubuntu uses: <year>.<month>.<minor-release>
-
-For example, a stable release made in March of 2014 will be labled: 14.03
-
-If a second release is done the same month then it will be labled: 14.03.1
-
 
 
 
 # Usage
 
-This document will describe how to use this tool and provide usefull examples.
-
-
-
-## CLI Input considerations
-
-If you input contains spaces or " they must be escaped out with pythons standard escape character \
-
-For example
-
-```Shell
-repy-cli -r "\".HN .+" -t "\"SHN 7" -vvvvv
+```
+repy-cli -r "\".HN .+" -t "\"SHN 7"
 ```
 
-Will test the regex
+Output
 
 ```
-".HN .+
+# Search for all matches
+>>> regex = re.compile(self.regex)
+>>> r = regex.search(self.text)
+>>> r is not None
+True
+
+# Find what indexes the regex matched
+>>> r.regs
+((0, 6),)
+
+# Test if regex matches text
+>>> m = regex.match(self.text)
+>>> m is not None
+True
+
+# List the groups found
+>>> r.groups()
+()
+
+# List the named dictionary objects found
+>>> r.groupdict()
+{}
+
+# Run findall
+>>> f = regex.findall(text)
+>>> f
+['"SHN 7']
+
+# Run timeit test
+>>> setup = ur'import re; regex =re.compile('".HN .+');string='"SHN 7'
+>>> t = timeit.Timer('regex.search(string)',setup)
+>>> t.timeit(10000)
+0.0032029151916503906
 ```
 
-With the text
-
-```
-"SHN 7
-```
 
 
-
-## docopt string
+# docopt string
 
 Multiple -v will give different logging levels when running repy. '-vvvvv' will output DEBUG logging messages and '-v' will only output CRITICAL logging messages.
 
@@ -106,7 +105,17 @@ Options:
 
 
 
-# Authors list
+# repy version scheme
+
+Stable releases follow the same name scheme ubuntu uses: <year>.<month>.<minor-release>
+
+For example, a stable release made in March of 2014 will be labled: 14.03
+
+If a second release is done the same month then it will be labled: 14.03.1
+
+
+
+# Authors
 
 ```
 Johan Grok Andersson <Grokzen@gmail.com>
